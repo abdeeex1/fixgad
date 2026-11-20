@@ -134,7 +134,7 @@ export const Route = createFileRoute("/api/early-access")({
             full_name: parsed.data.name,
             email: parsed.data.email,
             city: parsed.data.city,
-            user_type: parsed.data.type,
+            registration_type: parsed.data.type,
             phone: parsed.data.phone || null,
             preferred_language: parsed.data.preferredLanguage || null,
             primary_trade: parsed.data.primaryTrade || null,
