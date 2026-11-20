@@ -20,7 +20,7 @@ No backend, database, authentication, payments, form service or email-sending se
 
 ## Map and media
 
-The MapLibre map uses free OpenFreeMap Positron tiles with provider attribution intact. It is loaded after hydration and includes selectable sample category markers, zoom and recenter controls. Everything shown is illustrative, not live availability. Photos are generated visual representations, not identified customers or professionals. The supplied logo is preserved and used for the favicon. Optimized WebP imagery is served through Lovable Assets pointers.
+The MapLibre map uses free OpenFreeMap Positron tiles with provider attribution intact. It is loaded after hydration and includes selectable sample category markers, zoom and recenter controls. Everything shown is illustrative, not live availability. Photos are generated visual representations, not identified customers or professionals. The supplied logo is preserved and used for the favicon. Production images are served as local PNG assets from `public/images/`, with Cloudflare-safe absolute public paths.
 
 ## Design and accessibility
 
@@ -28,4 +28,4 @@ Semantic OKLCH tokens and shared styles live in `src/styles.css`. Montserrat hea
 
 ## Search and deployment
 
-Each content route has unique title, description and Open Graph metadata. `/sitemap.xml` derives eligible URLs from the router using the owner's supplied `https://fixgad.tech` origin. `public/robots.txt` preserves crawler access. Publish and connect the domain before expecting public search visibility. No registration or marketplace features are claimed live.
+Each content route has unique title, description and Open Graph metadata. `/sitemap.xml` derives eligible URLs from the router using the owner's supplied `https://fixgad.app` origin. `public/robots.txt` preserves crawler access. Publish and connect the domain before expecting public search visibility. No registration or marketplace features are claimed live.

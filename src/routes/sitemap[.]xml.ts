@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { getRouterInstance } from '@tanstack/react-start';
 import { sitemapStaticPaths, sitemapXML } from '@/lib/sitemap';
-const BASE_URL = 'https://fixgad.tech';
+const BASE_URL = 'https://fixgad.app';
 export const Route = createFileRoute('/sitemap.xml')({
  staticData: { sitemap: false },
  server: {
