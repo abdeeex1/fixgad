@@ -12,11 +12,13 @@ A public company and marketing website, not the FIXGAD marketplace. Built with R
 
 Home, how it works, customer and Hrayfi pages, services, about, early access and contact are separate routes. Privacy and terms are explicitly unpublished placeholders, excluded from the sitemap and marked noindex. Content is fully available in English, French and Arabic. The selected language persists on the device; Arabic sets document direction and typography. Initial server rendering is English.
 
-## Early access — deliberately not connected
+## Early access
 
-No backend, database, authentication, payments, form service or email-sending service is connected. The form validates full name, email, city and Customer/Hrayfi user type, without a phone field. It explicitly explains that no submission is sent or stored. Contact email links let visitors write directly to contact@fixgad.tech using their own email application; opening one is not proof of delivery.
+The public form validates and submits full name, email, city and Customer/Hrayfi user type to a controlled Supabase RPC. Duplicate normalized email addresses are rejected by a unique database constraint. A 10-minute IP-based attempt limit provides basic abuse protection. No phone number or unnecessary personal information is collected.
 
-`src/lib/early-access.ts` is the typed, Zod-validated future integration boundary. Replace the `not-connected` result only after the owner authorizes a real delivery integration. No personal data is logged or persisted. Email sending requires a verified sending domain and further owner permission; it is not currently configured.
+The Supabase project must provide `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in local and Cloudflare environment settings. Use the publishable/anon key only; never configure or expose the service-role key in frontend or build variables.
+
+Admin access is available at `/admin/early-access`. Create the administrator in Supabase Auth, then insert its user UUID and email into `public.early_access_admins`. The admin page has search, customer/Hrayfi filtering, status updates and CSV export. Registrations are protected by RLS and are not readable by anonymous visitors.
 
 ## Map and media
 

@@ -8,15 +8,12 @@ import {
   Check,
   Camera,
   Plus,
-  Send,
   Layers,
-  ChevronDown,
-  MoveUpRight,
   Mail,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "./language";
-import { prepareEarlyAccess, earlyAccessSchema } from "@/lib/early-access";
+import { earlyAccessSchema } from "@/lib/early-access";
 const hero = "/images/hero-hrayfi.png";
 const craft = "/images/craft-hands.png";
 const bay = "/images/agadir-bay.png";
@@ -434,9 +431,13 @@ export function EarlyAccess({
   const { t } = useLanguage();
   const Heading = page ? "h1" : "h2";
   const [role, setRole] = useState<"customer" | "hrayfi">("customer");
-  const [status, setStatus] = useState<"idle" | "error" | "ready">("idle");
-  function submit(event: FormEvent<HTMLFormElement>) {
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "error" | "duplicate" | "rate-limited" | "ready"
+  >("idle");
+  const [message, setMessage] = useState("");
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (status === "loading") return;
     const data = new FormData(event.currentTarget);
     const input = {
       name: data.get("name"),
@@ -446,10 +447,49 @@ export function EarlyAccess({
     };
     if (!earlyAccessSchema.safeParse(input).success) {
       setStatus("error");
+      setMessage(t.validation);
       return;
     }
-    prepareEarlyAccess(input);
-    setStatus("ready");
+    setStatus("loading");
+    setMessage("");
+    try {
+      const response = await fetch("/api/early-access", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: input.name,
+          email: input.email,
+          city: input.city,
+          type: input.type,
+          website: data.get("website"),
+        }),
+      });
+      const result = (await response.json()) as { status?: string; message?: string };
+      if (response.ok && result.status === "success") {
+        setStatus("ready");
+        setMessage(
+          "You're on the list! Thank you for your interest in FIXGAD. We'll keep you updated as we get closer to launch.",
+        );
+        event.currentTarget.reset();
+        setRole("customer");
+        return;
+      }
+      if (response.status === 409 || result.status === "duplicate") {
+        setStatus("duplicate");
+        setMessage("This email is already on the list. No need to register again.");
+        return;
+      }
+      if (response.status === 429 || result.status === "rate_limited") {
+        setStatus("rate-limited");
+        setMessage("Too many attempts. Please wait a few minutes before trying again.");
+        return;
+      }
+      setStatus("error");
+      setMessage(result.message || "We couldn't save your registration. Please try again.");
+    } catch {
+      setStatus("error");
+      setMessage("We couldn't connect right now. Please check your connection and try again.");
+    }
   }
   return (
     <section className={`early-section ${compact ? "compact-early" : ""}`}>
@@ -467,6 +507,12 @@ export function EarlyAccess({
           </span>
         </div>
         <form className="early-form" onSubmit={submit} noValidate>
+          <div className="honeypot" aria-hidden="true">
+            <label>
+              Website
+              <input name="website" tabIndex={-1} autoComplete="off" />
+            </label>
+          </div>
           <fieldset>
             <legend>{t.type}</legend>
             <div className="role-options">
@@ -521,18 +567,18 @@ export function EarlyAccess({
               placeholder={t.cityPlaceholder}
             />
           </label>
-          <Button type="submit" variant="cta" size="lg">
-            {t.submit}
+          <Button type="submit" variant="cta" size="lg" disabled={status === "loading"}>
+            {status === "loading" ? "Submitting..." : t.submit}
             <ArrowUpRight className="directional" />
           </Button>
-          {status === "error" && (
+          {status !== "idle" && status !== "loading" && status !== "ready" && (
             <p className="form-feedback error" role="alert">
-              {t.validation}
+              {message}
             </p>
           )}
           {status === "ready" && (
             <p className="form-feedback" role="status">
-              {t.formReady}
+              {message}
             </p>
           )}
           <p className="form-note">{t.formNote}</p>

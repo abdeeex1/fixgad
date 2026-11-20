@@ -20,6 +20,8 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as AdminEarlyAccessRouteImport } from './routes/admin/early-access'
+import { Route as ApiEarlyAccessRouteImport } from './routes/api/early-access'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -76,6 +78,16 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminEarlyAccessRoute = AdminEarlyAccessRouteImport.update({
+  id: '/admin/early-access',
+  path: '/admin/early-access',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiEarlyAccessRoute = ApiEarlyAccessRouteImport.update({
+  id: '/api/early-access',
+  path: '/api/early-access',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -89,6 +101,8 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/admin/early-access': typeof AdminEarlyAccessRoute
+  '/api/early-access': typeof ApiEarlyAccessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -102,6 +116,8 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/admin/early-access': typeof AdminEarlyAccessRoute
+  '/api/early-access': typeof ApiEarlyAccessRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -116,6 +132,8 @@ export interface FileRoutesById {
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/admin/early-access': typeof AdminEarlyAccessRoute
+  '/api/early-access': typeof ApiEarlyAccessRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -131,6 +149,8 @@ export interface FileRouteTypes {
     | '/services'
     | '/sitemap.xml'
     | '/terms'
+    | '/admin/early-access'
+    | '/api/early-access'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -144,6 +164,8 @@ export interface FileRouteTypes {
     | '/services'
     | '/sitemap.xml'
     | '/terms'
+    | '/admin/early-access'
+    | '/api/early-access'
   id:
     | '__root__'
     | '/'
@@ -157,6 +179,8 @@ export interface FileRouteTypes {
     | '/services'
     | '/sitemap.xml'
     | '/terms'
+    | '/admin/early-access'
+    | '/api/early-access'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -171,6 +195,8 @@ export interface RootRouteChildren {
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  AdminEarlyAccessRoute: typeof AdminEarlyAccessRoute
+  ApiEarlyAccessRoute: typeof ApiEarlyAccessRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -252,6 +278,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/early-access': {
+      id: '/admin/early-access'
+      path: '/admin/early-access'
+      fullPath: '/admin/early-access'
+      preLoaderRoute: typeof AdminEarlyAccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/early-access': {
+      id: '/api/early-access'
+      path: '/api/early-access'
+      fullPath: '/api/early-access'
+      preLoaderRoute: typeof ApiEarlyAccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -267,6 +307,8 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  AdminEarlyAccessRoute: AdminEarlyAccessRoute,
+  ApiEarlyAccessRoute: ApiEarlyAccessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
