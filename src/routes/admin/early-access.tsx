@@ -8,7 +8,15 @@ type Registration = {
   email: string;
   city: string;
   user_type: "customer" | "hrayfi";
-  status: "pending" | "contacted" | "accepted" | "closed";
+  phone?: string | null;
+  preferred_language?: string | null;
+  primary_trade?: string | null;
+  custom_profession?: string | null;
+  additional_trades?: string[] | null;
+  experience_years?: number | null;
+  service_description?: string | null;
+  admin_notes?: string | null;
+  status: "new" | "pending_review" | "approved" | "rejected" | "contacted" | "pending" | "accepted" | "closed";
   created_at: string;
   updated_at: string;
 };
@@ -33,6 +41,10 @@ function AdminEarlyAccess() {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<"all" | "customer" | "hrayfi">("all");
+  const [tradeFilter, setTradeFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [sortNewest, setSortNewest] = useState(true);
+  const [showPasswordReset, setShowPasswordReset] = useState(false);
 
   async function checkAuthorization() {
     if (!supabase) {
@@ -60,7 +72,7 @@ function AdminEarlyAccess() {
     if (!supabase) return;
     const { data, error } = await supabase
       .from("early_access_registrations")
-      .select("id,full_name,email,city,user_type,status,created_at,updated_at")
+      .select("id,full_name,email,phone,city,preferred_language,user_type,primary_trade,custom_profession,additional_trades,experience_years,service_description,admin_notes,status,created_at,updated_at")
       .order("created_at", { ascending: false });
     if (error) {
       setMessage(error.message);
@@ -97,7 +109,7 @@ function AdminEarlyAccess() {
       if (admin) {
         const { data: rows, error } = await supabase
           .from("early_access_registrations")
-          .select("id,full_name,email,city,user_type,status,created_at,updated_at")
+          .select("id,full_name,email,phone,city,preferred_language,user_type,primary_trade,custom_profession,additional_trades,experience_years,service_description,admin_notes,status,created_at,updated_at")
           .order("created_at", { ascending: false });
         if (!cancelled) {
           if (error) setMessage(error.message);
@@ -131,6 +143,22 @@ function AdminEarlyAccess() {
     setRegistrations([]);
   }
 
+  async function resetPassword(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!supabase || !email.trim()) return;
+    setLoading(true);
+    setMessage("");
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: "https://fixgad.app/reset-password",
+    });
+    setLoading(false);
+    setMessage(
+      error
+        ? error.message
+        : "If this account exists, a password reset link has been sent.",
+    );
+  }
+
   async function updateStatus(id: string, status: Registration["status"]) {
     if (!supabase) return;
     const { error } = await supabase
@@ -147,14 +175,35 @@ function AdminEarlyAccess() {
   }
 
   function exportCsv() {
-    const escape = (value: string) => `"${value.replaceAll('"', '""')}"`;
+    const escape = (value: string) => `"${String(value ?? "").replaceAll('"', '""')}"`;
     const rows = [
-      ["Full name", "Email", "City", "User type", "Status", "Registered at"],
+      [
+        "Full name",
+        "Email",
+        "Phone",
+        "City",
+        "Preferred language",
+        "User type",
+        "Primary trade",
+        "Custom profession",
+        "Additional trades",
+        "Experience years",
+        "Service description",
+        "Status",
+        "Registered at",
+      ],
       ...filtered.map((item) => [
         item.full_name,
         item.email,
+        item.phone,
         item.city,
+        item.preferred_language,
         item.user_type,
+        item.primary_trade,
+        item.custom_profession,
+        (item.additional_trades ?? []).join("; "),
+        item.experience_years,
+        item.service_description,
         item.status,
         item.created_at,
       ]),
@@ -175,8 +224,29 @@ function AdminEarlyAccess() {
       item.full_name.toLowerCase().includes(normalizedSearch) ||
       item.email.toLowerCase().includes(normalizedSearch);
     const matchesType = typeFilter === "all" || item.user_type === typeFilter;
-    return matchesSearch && matchesType;
-  });
+    const profession = item.custom_profession || item.primary_trade || "";
+    const matchesTrade =
+      tradeFilter === "all" || profession.toLowerCase() === tradeFilter.toLowerCase();
+    const matchesStatus = statusFilter === "all" || item.status === statusFilter;
+    return matchesSearch && matchesType && matchesTrade && matchesStatus;
+  }).sort((a, b) =>
+    sortNewest
+      ? b.created_at.localeCompare(a.created_at)
+      : a.created_at.localeCompare(b.created_at),
+  );
+  const tradeNames = Array.from(
+    new Set(
+      registrations
+        .filter((item) => item.user_type === "hrayfi")
+        .map((item) => item.custom_profession || item.primary_trade)
+        .filter((value): value is string => Boolean(value)),
+    ),
+  ).sort();
+  const customerCount = registrations.filter((item) => item.user_type === "customer").length;
+  const hrayfiCount = registrations.filter((item) => item.user_type === "hrayfi").length;
+  const newCount = registrations.filter(
+    (item) => item.status === "new" || item.status === "pending",
+  ).length;
 
   if (loading) {
     return (
@@ -189,7 +259,7 @@ function AdminEarlyAccess() {
   if (!authorized) {
     return (
       <main className="admin-page">
-        <form className="admin-login" onSubmit={login}>
+        <form className="admin-login" onSubmit={showPasswordReset ? resetPassword : login}>
           <span className="eyebrow">FIXGAD · Administration</span>
           <h1>Early access administration</h1>
           <p>Authorized personnel only.</p>
@@ -217,7 +287,17 @@ function AdminEarlyAccess() {
             </p>
           )}
           <button type="submit" className="admin-primary">
-            Sign in
+            {showPasswordReset ? "Send reset link" : "Sign in"}
+          </button>
+          <button
+            type="button"
+            className="admin-secondary"
+            onClick={() => {
+              setShowPasswordReset((current) => !current);
+              setMessage("");
+            }}
+          >
+            {showPasswordReset ? "Back to sign in" : "Forgot password?"}
           </button>
         </form>
       </main>
@@ -235,6 +315,12 @@ function AdminEarlyAccess() {
           Sign out
         </button>
       </div>
+      <div className="admin-stats" aria-label="Registration summary">
+        <article><strong>{registrations.length}</strong><span>Total registrations</span></article>
+        <article><strong>{customerCount}</strong><span>Customers</span></article>
+        <article><strong>{hrayfiCount}</strong><span>Hrayfis</span></article>
+        <article><strong>{newCount}</strong><span>New</span></article>
+      </div>
       <div className="admin-toolbar">
         <input
           type="search"
@@ -250,6 +336,39 @@ function AdminEarlyAccess() {
           <option value="all">All user types</option>
           <option value="customer">Customers</option>
           <option value="hrayfi">Hrayfis</option>
+        </select>
+        <select
+          value={tradeFilter}
+          onChange={(event) => setTradeFilter(event.target.value)}
+          aria-label="Filter by trade"
+        >
+          <option value="all">All trades</option>
+          {tradeNames.map((trade) => (
+            <option key={trade} value={trade}>{trade}</option>
+          ))}
+        </select>
+        <select
+          value={statusFilter}
+          onChange={(event) => setStatusFilter(event.target.value)}
+          aria-label="Filter by status"
+        >
+          <option value="all">All statuses</option>
+          <option value="new">New</option>
+          <option value="pending_review">Pending review</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+          <option value="contacted">Contacted</option>
+          <option value="pending">Pending (legacy)</option>
+          <option value="accepted">Accepted (legacy)</option>
+          <option value="closed">Closed (legacy)</option>
+        </select>
+        <select
+          value={sortNewest ? "newest" : "oldest"}
+          onChange={(event) => setSortNewest(event.target.value === "newest")}
+          aria-label="Sort registrations"
+        >
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
         </select>
         <button type="button" className="admin-primary" onClick={exportCsv}>
           Export CSV
@@ -268,6 +387,7 @@ function AdminEarlyAccess() {
               <th>Email</th>
               <th>City</th>
               <th>Type</th>
+              <th>Profession / experience</th>
               <th>Status</th>
               <th>Registered</th>
             </tr>
@@ -280,16 +400,26 @@ function AdminEarlyAccess() {
                 <td>{item.city}</td>
                 <td>{item.user_type === "hrayfi" ? "Hrayfi" : "Customer"}</td>
                 <td>
+                  {item.user_type === "hrayfi"
+                    ? `${item.custom_profession || item.primary_trade || "Not specified"}${
+                        item.experience_years != null
+                          ? ` · ${item.experience_years} years`
+                          : ""
+                      }`
+                    : "—"}
+                </td>
+                <td>
                   <select
                     value={item.status}
                     onChange={(event) =>
                       void updateStatus(item.id, event.target.value as Registration["status"])
                     }
                   >
-                    <option value="pending">Pending</option>
+                    <option value="new">New</option>
+                    <option value="pending_review">Pending review</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
                     <option value="contacted">Contacted</option>
-                    <option value="accepted">Accepted</option>
-                    <option value="closed">Closed</option>
                   </select>
                 </td>
                 <td>{new Date(item.created_at).toLocaleString()}</td>
@@ -297,7 +427,7 @@ function AdminEarlyAccess() {
             ))}
             {!filtered.length && (
               <tr>
-                <td colSpan={6}>No registrations match this view.</td>
+                <td colSpan={7}>No registrations match this view.</td>
               </tr>
             )}
           </tbody>

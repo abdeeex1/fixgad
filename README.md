@@ -18,6 +18,8 @@ The public form validates and submits full name, email, city and Customer/Hrayfi
 
 The Supabase project must provide `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in local and Cloudflare environment settings. Use the publishable/anon key only; never configure or expose the service-role key in frontend or build variables.
 
+Optional server-only email variables are `RESEND_API_KEY` and `RESEND_FROM_EMAIL`. Configure them only in Cloudflare Pages runtime secrets and Supabase Edge Function secrets if used. Registration remains valid even when email delivery is unavailable. The sender domain must be verified in Resend before production email is enabled.
+
 Admin access is available at `/admin/early-access`. Create the administrator in Supabase Auth, then insert its user UUID and email into `public.early_access_admins`. The admin page has search, customer/Hrayfi filtering, status updates and CSV export. Registrations are protected by RLS and are not readable by anonymous visitors.
 
 ## Map and media

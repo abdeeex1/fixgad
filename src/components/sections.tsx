@@ -14,6 +14,7 @@ import {
 import { Button } from "./ui/button";
 import { useLanguage } from "./language";
 import { earlyAccessSchema } from "@/lib/early-access";
+import { FIXGAD_TRADES } from "@/lib/trades";
 const hero = "/images/hero-hrayfi.png";
 const craft = "/images/craft-hands.png";
 const bay = "/images/agadir-bay.png";
@@ -424,17 +425,21 @@ export function AboutSection({ page = false }: { page?: boolean }) {
 export function EarlyAccess({
   compact = false,
   page = false,
+  initialRole = "customer",
 }: {
   compact?: boolean;
   page?: boolean;
+  initialRole?: "customer" | "hrayfi";
 }) {
   const { t } = useLanguage();
   const Heading = page ? "h1" : "h2";
-  const [role, setRole] = useState<"customer" | "hrayfi">("customer");
+  const [role, setRole] = useState<"customer" | "hrayfi">(initialRole);
   const [status, setStatus] = useState<
     "idle" | "loading" | "error" | "duplicate" | "rate-limited" | "ready"
   >("idle");
   const [message, setMessage] = useState("");
+  const [additionalTrades, setAdditionalTrades] = useState<string[]>([]);
+  const [primaryTrade, setPrimaryTrade] = useState("");
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (status === "loading") return;
@@ -444,6 +449,15 @@ export function EarlyAccess({
       email: data.get("email"),
       city: data.get("city"),
       type: role,
+      phone: data.get("phone")?.toString() || "",
+      preferredLanguage: data.get("preferredLanguage")?.toString() || undefined,
+      primaryTrade: role === "hrayfi" ? data.get("primaryTrade")?.toString() : undefined,
+      additionalTrades: role === "hrayfi" ? additionalTrades : undefined,
+      experienceYears: role === "hrayfi" ? data.get("experienceYears")?.toString() : undefined,
+      serviceDescription:
+        role === "hrayfi" ? data.get("serviceDescription")?.toString() : undefined,
+      customProfession:
+        role === "hrayfi" ? data.get("customProfession")?.toString() : undefined,
     };
     if (!earlyAccessSchema.safeParse(input).success) {
       setStatus("error");
@@ -461,6 +475,13 @@ export function EarlyAccess({
           email: input.email,
           city: input.city,
           type: input.type,
+          phone: input.phone,
+          preferredLanguage: input.preferredLanguage,
+          primaryTrade: input.primaryTrade,
+          additionalTrades: input.additionalTrades,
+          experienceYears: input.experienceYears,
+          serviceDescription: input.serviceDescription,
+          customProfession: input.customProfession,
           website: data.get("website"),
         }),
       });
@@ -567,6 +588,67 @@ export function EarlyAccess({
               placeholder={t.cityPlaceholder}
             />
           </label>
+          <label>
+            Phone number <span className="optional-label">(optional)</span>
+            <input name="phone" type="tel" autoComplete="tel" maxLength={30} />
+          </label>
+          {role === "hrayfi" && (
+            <div className="hrayfi-fields">
+              <label>
+                Main profession / trade
+                <select
+                  name="primaryTrade"
+                  required
+                  value={primaryTrade}
+                  onChange={(event) => setPrimaryTrade(event.target.value)}
+                >
+                  <option value="" disabled>
+                    Select a profession
+                  </option>
+                  {FIXGAD_TRADES.map((trade) => (
+                    <option key={trade} value={trade}>
+                      {trade}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              {primaryTrade === "Other" && (
+                <label>
+                  Your profession
+                  <input name="customProfession" required maxLength={100} />
+                </label>
+              )}
+              <fieldset>
+                <legend>Additional services</legend>
+                <div className="trade-options">
+                  {FIXGAD_TRADES.filter((trade) => trade !== "Other").map((trade) => (
+                    <label className="trade-option" key={trade}>
+                      <input
+                        type="checkbox"
+                        checked={additionalTrades.includes(trade)}
+                        onChange={(event) =>
+                          setAdditionalTrades((current) =>
+                            event.target.checked
+                              ? [...current, trade]
+                              : current.filter((item) => item !== trade),
+                          )
+                        }
+                      />
+                      {trade}
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+              <label>
+                Years of experience
+                <input name="experienceYears" type="number" min="0" max="60" step="1" />
+              </label>
+              <label>
+                Short description <span className="optional-label">(optional)</span>
+                <textarea name="serviceDescription" maxLength={1000} rows={4} />
+              </label>
+            </div>
+          )}
           <Button type="submit" variant="cta" size="lg" disabled={status === "loading"}>
             {status === "loading" ? "Submitting..." : t.submit}
             <ArrowUpRight className="directional" />

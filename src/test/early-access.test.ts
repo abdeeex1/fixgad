@@ -13,8 +13,26 @@ describe("early access validation", () => {
     expect(earlyAccessSchema.safeParse(valid).success).toBe(true);
   });
   it("accepts the two user types", () => {
-    expect(earlyAccessSchema.safeParse({ ...valid, type: "hrayfi" }).success).toBe(true);
+    expect(
+      earlyAccessSchema.safeParse({
+        ...valid,
+        type: "hrayfi",
+        primaryTrade: "Plumbing",
+      }).success,
+    ).toBe(true);
     expect(earlyAccessSchema.safeParse({ ...valid, type: "employee" }).success).toBe(false);
+  });
+  it("requires a primary trade for Hrayfis", () => {
+    expect(
+      earlyAccessSchema.safeParse({ ...valid, type: "hrayfi", city: "Agadir" }).success,
+    ).toBe(false);
+    expect(
+      earlyAccessSchema.safeParse({
+        ...valid,
+        type: "hrayfi",
+        primaryTrade: "Plumbing",
+      }).success,
+    ).toBe(true);
   });
   it("validates name, email and city", () => {
     for (const key of ["name", "email", "city"]) {

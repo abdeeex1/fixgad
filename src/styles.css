@@ -1368,6 +1368,93 @@ a:hover > .directional {
   margin-top: 8px;
   height: 45px;
 }
+.hrayfi-fields {
+  display: grid;
+  gap: 16px;
+  margin: 4px 0 18px;
+}
+.hrayfi-fields label,
+.trade-options legend {
+  font-size: 11px;
+}
+.hrayfi-fields select,
+.hrayfi-fields textarea {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  border: 1px solid var(--forest-light);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--primary-foreground);
+  padding: 10px;
+  font: inherit;
+}
+.hrayfi-fields textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+.trade-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.trade-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid var(--forest-light);
+  border-radius: var(--radius-sm);
+}
+.trade-option input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--orange);
+}
+.optional-label {
+  opacity: 0.75;
+  font-weight: 400;
+}
+.register-entry {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.register-entry article {
+  padding: 36px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+.register-entry h1 {
+  margin: 14px 0;
+  font-size: 34px;
+}
+.register-entry .admin-primary {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 18px;
+  text-decoration: none;
+}
+.faq-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 28px;
+}
+.faq-list details {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  padding: 18px;
+}
+.faq-list summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+.faq-list p {
+  margin: 12px 0 0;
+  color: var(--muted-foreground);
+}
 .form-note,
 .early-form .form-note {
   font-size: 9px;
@@ -2335,6 +2422,28 @@ a:hover > .directional {
 .admin-toolbar .admin-primary {
   margin: 0;
 }
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 28px;
+}
+.admin-stats article {
+  display: grid;
+  gap: 4px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+.admin-stats strong {
+  font-size: 28px;
+  color: var(--forest);
+}
+.admin-stats span {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
 .admin-table-wrap {
   overflow-x: auto;
   border: 1px solid var(--border);
@@ -2372,6 +2481,15 @@ a:hover > .directional {
     font-size: 32px;
   }
   .admin-toolbar {
+    grid-template-columns: 1fr;
+  }
+  .admin-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .trade-options {
+    grid-template-columns: 1fr;
+  }
+  .register-entry {
     grid-template-columns: 1fr;
   }
   .admin-toolbar .admin-primary {

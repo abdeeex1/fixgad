@@ -13,15 +13,21 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EarlyAccessRouteImport } from './routes/early-access'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ForCustomersRouteImport } from './routes/for-customers'
 import { Route as ForHrayfisRouteImport } from './routes/for-hrayfis'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AdminEarlyAccessRouteImport } from './routes/admin/early-access'
 import { Route as ApiEarlyAccessRouteImport } from './routes/api/early-access'
+import { Route as RegisterCustomerRouteImport } from './routes/register/customer'
+import { Route as RegisterHrayfiRouteImport } from './routes/register/hrayfi'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -43,6 +49,11 @@ const EarlyAccessRoute = EarlyAccessRouteImport.update({
   path: '/early-access',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ForCustomersRoute = ForCustomersRouteImport.update({
   id: '/for-customers',
   path: '/for-customers',
@@ -58,9 +69,24 @@ const HowItWorksRoute = HowItWorksRouteImport.update({
   path: '/how-it-works',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -88,36 +114,58 @@ const ApiEarlyAccessRoute = ApiEarlyAccessRouteImport.update({
   path: '/api/early-access',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RegisterCustomerRoute = RegisterCustomerRouteImport.update({
+  id: '/customer',
+  path: '/customer',
+  getParentRoute: () => RegisterRoute,
+} as any)
+const RegisterHrayfiRoute = RegisterHrayfiRouteImport.update({
+  id: '/hrayfi',
+  path: '/hrayfi',
+  getParentRoute: () => RegisterRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/early-access': typeof EarlyAccessRoute
+  '/faq': typeof FaqRoute
   '/for-customers': typeof ForCustomersRoute
   '/for-hrayfis': typeof ForHrayfisRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
+  '/register': typeof RegisterRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/api/early-access': typeof ApiEarlyAccessRoute
+  '/register/customer': typeof RegisterCustomerRoute
+  '/register/hrayfi': typeof RegisterHrayfiRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/early-access': typeof EarlyAccessRoute
+  '/faq': typeof FaqRoute
   '/for-customers': typeof ForCustomersRoute
   '/for-hrayfis': typeof ForHrayfisRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
+  '/register': typeof RegisterRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/api/early-access': typeof ApiEarlyAccessRoute
+  '/register/customer': typeof RegisterCustomerRoute
+  '/register/hrayfi': typeof RegisterHrayfiRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -125,15 +173,21 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/early-access': typeof EarlyAccessRoute
+  '/faq': typeof FaqRoute
   '/for-customers': typeof ForCustomersRoute
   '/for-hrayfis': typeof ForHrayfisRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
+  '/register': typeof RegisterRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/api/early-access': typeof ApiEarlyAccessRoute
+  '/register/customer': typeof RegisterCustomerRoute
+  '/register/hrayfi': typeof RegisterHrayfiRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -142,45 +196,63 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/early-access'
+    | '/faq'
     | '/for-customers'
     | '/for-hrayfis'
     | '/how-it-works'
+    | '/login'
     | '/privacy'
+    | '/register'
+    | '/reset-password'
     | '/services'
     | '/sitemap.xml'
     | '/terms'
     | '/admin/early-access'
     | '/api/early-access'
+    | '/register/customer'
+    | '/register/hrayfi'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/contact'
     | '/early-access'
+    | '/faq'
     | '/for-customers'
     | '/for-hrayfis'
     | '/how-it-works'
+    | '/login'
     | '/privacy'
+    | '/register'
+    | '/reset-password'
     | '/services'
     | '/sitemap.xml'
     | '/terms'
     | '/admin/early-access'
     | '/api/early-access'
+    | '/register/customer'
+    | '/register/hrayfi'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/contact'
     | '/early-access'
+    | '/faq'
     | '/for-customers'
     | '/for-hrayfis'
     | '/how-it-works'
+    | '/login'
     | '/privacy'
+    | '/register'
+    | '/reset-password'
     | '/services'
     | '/sitemap.xml'
     | '/terms'
     | '/admin/early-access'
     | '/api/early-access'
+    | '/register/customer'
+    | '/register/hrayfi'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -188,10 +260,14 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
   EarlyAccessRoute: typeof EarlyAccessRoute
+  FaqRoute: typeof FaqRoute
   ForCustomersRoute: typeof ForCustomersRoute
   ForHrayfisRoute: typeof ForHrayfisRoute
   HowItWorksRoute: typeof HowItWorksRoute
+  LoginRoute: typeof LoginRoute
   PrivacyRoute: typeof PrivacyRoute
+  RegisterRoute: typeof RegisterRouteWithChildren
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
@@ -229,6 +305,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EarlyAccessRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/for-customers': {
       id: '/for-customers'
       path: '/for-customers'
@@ -250,11 +333,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HowItWorksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -292,18 +396,50 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiEarlyAccessRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/register/customer': {
+      id: '/register/customer'
+      path: '/customer'
+      fullPath: '/register/customer'
+      preLoaderRoute: typeof RegisterCustomerRouteImport
+      parentRoute: typeof RegisterRoute
+    }
+    '/register/hrayfi': {
+      id: '/register/hrayfi'
+      path: '/hrayfi'
+      fullPath: '/register/hrayfi'
+      preLoaderRoute: typeof RegisterHrayfiRouteImport
+      parentRoute: typeof RegisterRoute
+    }
   }
 }
+
+interface RegisterRouteChildren {
+  RegisterCustomerRoute: typeof RegisterCustomerRoute
+  RegisterHrayfiRoute: typeof RegisterHrayfiRoute
+}
+
+const RegisterRouteChildren: RegisterRouteChildren = {
+  RegisterCustomerRoute: RegisterCustomerRoute,
+  RegisterHrayfiRoute: RegisterHrayfiRoute,
+}
+
+const RegisterRouteWithChildren = RegisterRoute._addFileChildren(
+  RegisterRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   EarlyAccessRoute: EarlyAccessRoute,
+  FaqRoute: FaqRoute,
   ForCustomersRoute: ForCustomersRoute,
   ForHrayfisRoute: ForHrayfisRoute,
   HowItWorksRoute: HowItWorksRoute,
+  LoginRoute: LoginRoute,
   PrivacyRoute: PrivacyRoute,
+  RegisterRoute: RegisterRouteWithChildren,
+  ResetPasswordRoute: ResetPasswordRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
