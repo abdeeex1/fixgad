@@ -28,3 +28,11 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project architecture
+- Keep public content in TanStack leaf routes with shared shell and section components, so navigation remains crawlable and consistent.
+- Keep all translated visible copy in the shared content dictionary and use the language provider for device persistence and RTL, so language remains consistent across pages.
+- Keep early access behind a validated, disconnected preparation boundary until an owner-approved delivery service exists; never simulate submission success.
+- Load the MapLibre demonstration dynamically after hydration and retain provider attribution, so SSR remains safe and map activity remains explicitly illustrative.
+- Derive sitemap entries from required per-route staticData decisions, so new pages cannot silently miss a discoverability decision.
+- Keep semantic visual tokens and reusable layout styles in the global stylesheet and binary media in asset pointers, so the brand is consistent and the repository stays lightweight.
