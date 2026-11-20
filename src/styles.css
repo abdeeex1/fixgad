@@ -20,3 +20,5 @@
 
 @layer base{a{color:inherit}}
 .audience-copy h1{margin:18px 0 20px;font-size:39px;line-height:1.22}@media(max-width:700px){.audience-copy h1{font-size:32px}}
+.early-section h1{margin:22px 0;font-size:41px;line-height:1.22;white-space:pre-line}@media(max-width:700px){.early-section h1{font-size:33px;margin-top:15px}}
+.about-grid h1{font-size:43px;line-height:1.22;white-space:pre-line}@media(max-width:700px){.about-grid h1{font-size:32px}}
