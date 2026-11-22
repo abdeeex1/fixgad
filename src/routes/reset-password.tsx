@@ -48,7 +48,7 @@ function ResetPasswordPage() {
       if (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
         setHasRecoverySession(Boolean(session));
         if (session) setMessage("");
-      });
+      }
     });
 
     return () => {
