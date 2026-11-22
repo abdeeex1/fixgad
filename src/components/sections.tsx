@@ -443,7 +443,8 @@ export function EarlyAccess({
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (status === "loading") return;
-    const data = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const data = new FormData(form);
     const input = {
       name: data.get("name"),
       email: data.get("email"),
@@ -491,7 +492,7 @@ export function EarlyAccess({
         setMessage(
           "You're on the list! Thank you for your interest in FIXGAD. We'll keep you updated as we get closer to launch.",
         );
-        event.currentTarget.reset();
+        form.reset();
         setRole("customer");
         return;
       }
