@@ -25,73 +25,33 @@ function escapeHtml(value: string) {
 }
 
 function registrationEmailContent(registration: RegistrationEmailData) {
-  const language = registration.preferredLanguage ?? "en";
+  const language = "ar";
   const isHrayfi = registration.type === "hrayfi";
   const name = escapeHtml(registration.name);
   const city = escapeHtml(registration.city);
   const trade = registration.primaryTrade ? escapeHtml(registration.primaryTrade) : "";
 
   const copy = {
-    en: {
-      subject: "We've received your FIXGAD registration",
-      eyebrow: "EARLY ACCESS REGISTRATION",
-      title: isHrayfi ? "Thanks for raising your hand." : "You're on our early-access list.",
-      greeting: `Hello ${name},`,
-      intro: isHrayfi
-        ? "Thank you for your interest in joining FIXGAD as an independent service professional. We've received your details and our team will review your registration."
-        : "Thank you for your interest in FIXGAD. We've received your early-access registration and will keep you informed as we prepare to launch.",
-      nextTitle: "What happens next?",
-      next: isHrayfi
-        ? "Our team will review the information you shared. If we need anything else, we'll contact you directly. This registration is an expression of interest, not an employment offer or guarantee of acceptance."
-        : "We'll share relevant launch updates and let you know when early access becomes available in your area. Registering does not guarantee immediate access.",
-      location: "Your city",
-      tradeLabel: "Main profession",
-      closing: "Thanks for being part of what we're building.",
-      signature: "The FIXGAD Team",
-      footer: "A simpler way to get home services, starting in Morocco.",
-      help: "Questions? Reply to this email or contact",
-    },
-    fr: {
-      subject: "Nous avons bien reçu votre inscription FIXGAD",
-      eyebrow: "INSCRIPTION À L'ACCÈS ANTICIPÉ",
-      title: isHrayfi ? "Merci pour votre intérêt." : "Votre inscription est bien enregistrée.",
-      greeting: `Bonjour ${name},`,
-      intro: isHrayfi
-        ? "Merci de votre intérêt pour rejoindre FIXGAD en tant que professionnel indépendant. Nous avons bien reçu vos informations et notre équipe va examiner votre inscription."
-        : "Merci de votre intérêt pour FIXGAD. Nous avons bien reçu votre demande d'accès anticipé et vous tiendrons informé(e) de l'avancement du lancement.",
-      nextTitle: "Quelle est la prochaine étape ?",
-      next: isHrayfi
-        ? "Notre équipe examinera les informations transmises. Nous vous contacterons si nous avons besoin de précisions. Cette inscription exprime un intérêt et ne constitue ni une offre d'emploi ni une garantie d'acceptation."
-        : "Nous vous communiquerons les actualités utiles du lancement et vous informerons lorsque l'accès anticipé sera disponible dans votre zone. L'inscription ne garantit pas un accès immédiat.",
-      location: "Votre ville",
-      tradeLabel: "Profession principale",
-      closing: "Merci de prendre part à cette aventure.",
-      signature: "L'équipe FIXGAD",
-      footer: "Les services à domicile, plus simplement. Bientôt au Maroc.",
-      help: "Une question ? Répondez à cet e-mail ou contactez-nous à",
-    },
-    ar: {
-      subject: "توصلنا بطلب تسجيلك في FIXGAD",
-      eyebrow: "التسجيل في الولوج المبكر",
-      title: isHrayfi ? "شكراً على اهتمامك بالانضمام إلينا." : "تم تسجيل طلبك بنجاح.",
-      greeting: `مرحباً ${name}،`,
-      intro: isHrayfi
-        ? "شكراً لاهتمامك بالانضمام إلى FIXGAD كمقدم خدمات مستقل. توصلنا بمعلوماتك وسيقوم فريقنا بمراجعة طلبك."
-        : "شكراً لاهتمامك بـ FIXGAD. توصلنا بطلب التسجيل في الولوج المبكر وسنبقيك على اطلاع بمستجدات الإطلاق.",
-      nextTitle: "ماذا سيحدث بعد ذلك؟",
-      next: isHrayfi
-        ? "سيقوم فريقنا بمراجعة المعلومات التي أرسلتها. سنتواصل معك إذا احتجنا إلى معلومات إضافية. هذا التسجيل يعبر عن اهتمامك فقط، ولا يمثل عرض عمل أو ضماناً للقبول."
-        : "سنشارك معك مستجدات الإطلاق المهمة ونخبرك عندما يصبح الولوج المبكر متاحاً في منطقتك. التسجيل لا يضمن الولوج الفوري.",
-      location: "المدينة",
-      tradeLabel: "المهنة الرئيسية",
-      closing: "شكراً لأنك جزء مما نبنيه.",
-      signature: "فريق FIXGAD",
-      footer: "خدمات منزلية بطريقة أسهل. قريباً في المغرب.",
-      help: "لديك سؤال؟ أجب على هذه الرسالة أو راسلنا عبر",
-    },
-  }[language];
+    subject: "توصلنا بالتسجيل ديالك فـ FIXGAD",
+    eyebrow: "التسجيل فالولوج المبكر",
+    title: isHrayfi ? "شكراً على الاهتمام ديالك بـ FIXGAD!" : "مرحبا بيك فـ FIXGAD!",
+    greeting: `سلام ${name}،`,
+    intro: isHrayfi
+      ? "شكراً حيث عبّرتي على الرغبة ديالك باش تنضم لـ FIXGAD كمقدم خدمات مستقل. توصلنا بالمعلومات ديالك، والفريق ديالنا غادي يراجع التسجيل ديالك ونتاصلو بيك ملي يكون شي جديد."
+      : "شكراً على الثقة والاهتمام ديالك بـ FIXGAD. توصلنا بالتسجيل ديالك بنجاح، وغادي نبقاو على تواصل معاك ونخبروك بآخر المستجدات ديال الإطلاق.",
+    nextTitle: "شنو غادي يوقع من دابا؟",
+    next: isHrayfi
+      ? "الفريق ديالنا غادي يراجع المعلومات اللي شاركتي معانا. إلا احتجنا شي توضيح، غادي نتاصلو بيك. التسجيل ديالك كيعبر غير على الاهتمام، وما كيعنيش قبول نهائي ولا عقد عمل."
+      : "غادي نشاركو معاك الأخبار المهمة ديال FIXGAD، ونخبروك ملي يكون الولوج المبكر متاح فالمدينة ديالك. التسجيل ما كيعنيش بالضرورة أن الولوج غادي يكون فوري.",
+    location: "المدينة",
+    tradeLabel: "الحرفة الرئيسية",
+    closing: "فرحانين حيث غادي تكون جزء من هاد المشروع.",
+    signature: "فريق FIXGAD",
+    footer: "FIXGAD كتقرّب ليك خدمات الدار بطريقة أسهل. قريباً فالمغرب.",
+    help: "عندك شي سؤال؟ جاوب على هاد الإيميل ولا تواصل معانا عبر",
+  };
 
-  const isArabic = language === "ar";
+  const isArabic = true;
   const direction = isArabic ? "rtl" : "ltr";
   const details = [
     `<tr><td style="padding:10px 0;color:#64748b;font-size:13px;">${copy.location}</td><td style="padding:10px 0;text-align:${isArabic ? "left" : "right"};color:#17211d;font-size:14px;font-weight:600;">${city}</td></tr>`,
@@ -101,7 +61,7 @@ function registrationEmailContent(registration: RegistrationEmailData) {
   ].join("");
 
   const html = `<!doctype html>
-<html lang="${language}" dir="${direction}">
+<html lang="ary" dir="rtl">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="margin:0;background:#f4f6f3;font-family:Arial,Helvetica,sans-serif;color:#17211d;direction:${direction};">
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f4f6f3;padding:32px 12px;">
@@ -186,16 +146,16 @@ async function sendRegistrationEmails(registration: RegistrationEmailData) {
         from,
         to: ["contact@fixgad.tech"],
         reply_to: registration.email,
-        subject: `New FIXGAD early-access registration · ${registration.type === "hrayfi" ? "Hrayfi" : "Customer"} · ${registration.city}`,
+        subject: `تسجيل جديد فـ FIXGAD · ${registration.type === "hrayfi" ? "حرفي" : "زبون"} · ${registration.city}`,
         text: [
-          "A new early-access registration has been received.",
+          "توصلنا بتسجيل جديد فالولوج المبكر.",
           "",
-          `Name: ${registration.name}`,
-          `Email: ${registration.email}`,
-          `City: ${registration.city}`,
-          `Type: ${registration.type}`,
-          ...(registration.primaryTrade ? [`Main profession: ${registration.primaryTrade}`] : []),
-          `Registration ID: ${registration.id}`,
+          `الاسم: ${registration.name}`,
+          `الإيميل: ${registration.email}`,
+          `المدينة: ${registration.city}`,
+          `نوع التسجيل: ${registration.type === "hrayfi" ? "حرفي" : "زبون"}`,
+          ...(registration.primaryTrade ? [`الحرفة الرئيسية: ${registration.primaryTrade}`] : []),
+          `رقم التسجيل: ${registration.id}`,
         ].join("\n"),
       },
     },
