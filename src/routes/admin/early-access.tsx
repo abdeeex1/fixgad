@@ -272,15 +272,17 @@ function AdminEarlyAccess() {
               required
             />
           </label>
-          <label>
-            Password
-            <input
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              required
-            />
-          </label>
+          {!showPasswordReset && (
+            <label>
+              Password
+              <input
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                required
+              />
+            </label>
+          )}
           {message && (
             <p className="form-feedback error" role="alert">
               {message}
