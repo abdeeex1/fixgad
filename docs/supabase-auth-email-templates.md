@@ -1,162 +1,174 @@
-# FIXGAD — Supabase Auth Email Templates
+# FIXGAD — قوالب إيميلات الحساب والأمان بالدارجة المغربية
 
-These are branded copy/paste templates for Supabase Dashboard → Authentication → Email Templates. They are not automatically applied to the hosted project by committing this file.
+هاد القوالب موجدين باش تنسخهم فـ Supabase Dashboard → Authentication → Email Templates. حفظ هاد الملف فـ GitHub ما كيبدلش القوالب بوحدو فـ Supabase؛ خاصك تلصق كل قالب فبلاصتو فالداشبورد.
 
-**Brand settings**
-- Sender name: FIXGAD
-- Sender address: notifications@fixgad.app (only after this sender is accepted by the verified sending domain / SMTP configuration)
-- Support: support@fixgad.tech
-- Website: https://fixgad.app
-- Use `{{ .ConfirmationURL }}` for secure action links. Do not hardcode localhost or construct auth links from `{{ .SiteURL }}`.
-- Keep email click tracking disabled for authentication messages so single-use links are not rewritten.
+## الهوية ديال الإيميلات
 
-Use this shared visual language in every template: deep green `#173D32`, warm off-white `#F4F6F3`, white content panel, clear action button, and a plain-language security note.
+- الاسم اللي كيبان للناس: FIXGAD
+- الإيميل: notifications@fixgad.app (من بعد ما يكون SMTP ديال Supabase مربوط بمرسل موثّق)
+- الدعم: support@fixgad.tech
+- الموقع: https://fixgad.app
+- اللغة: الدارجة المغربية بالحروف العربية، واتجاه الكتابة RTL.
+- خليك ديما مستعمل `{{ .ConfirmationURL }}` فالروابط الآمنة. ما تستعملش localhost وما تركّبش الرابط يدوياً.
+- طفي click tracking فإيميلات تسجيل الدخول واسترجاع كلمة السر باش الروابط الآمنة ما تتبدلش.
 
-## 1. Confirm signup
+**الستايل:** أخضر غامق `#173D32`، خلفية فاتحة `#F4F6F3`، كارت بيضاء، زر واضح، وملاحظة أمان مفهومة.
 
-**Subject:** Welcome to FIXGAD — confirm your email
+---
+
+## 1. تأكيد الإيميل (Confirm signup)
+
+**Subject:** مرحبا بيك فـ FIXGAD! أكد لينا الإيميل ديالك
 
 ```html
-<!doctype html><html><body style="margin:0;background:#f4f6f3;font-family:Arial,sans-serif;color:#17211d;padding:28px 12px">
-<table role="presentation" width="100%" style="max-width:580px;margin:auto;background:#fff;border-radius:16px;padding:32px">
-<tr><td><div style="font-size:22px;font-weight:800;letter-spacing:1px;color:#173d32">FIXGAD</div>
-<p style="color:#718078;font-size:11px;letter-spacing:1px">WELCOME TO FIXGAD</p>
-<h1 style="font-size:25px;color:#173d32">Confirm your email address</h1>
-<p>Hi{{ if .Data.full_name }} {{ .Data.full_name }}{{ end }},</p>
-<p>Thanks for joining FIXGAD. Confirm your email address to help us keep your account secure and make sure we can reach you with important updates.</p>
-<p style="margin:28px 0"><a href="{{ .ConfirmationURL }}" style="background:#173d32;color:#fff;text-decoration:none;padding:14px 22px;border-radius:8px;font-weight:bold">Confirm my email</a></p>
-<p style="font-size:13px;color:#64736b">If you didn't create a FIXGAD account, you can ignore this email.</p>
-<p style="margin-top:28px">The FIXGAD Team<br><a href="https://fixgad.app" style="color:#173d32">fixgad.app</a></p>
-<hr style="border:0;border-top:1px solid #e8eee9;margin-top:24px"><p style="font-size:12px;color:#718078">Questions? <a href="mailto:support@fixgad.tech" style="color:#173d32">support@fixgad.tech</a></p></td></tr></table></body></html>
+<!doctype html><html lang="ary" dir="rtl"><body style="margin:0;background:#f4f6f3;font-family:Arial,sans-serif;color:#17211d;padding:28px 12px;direction:rtl">
+<table role="presentation" width="100%" style="max-width:580px;margin:auto;background:#fff;border-radius:16px;padding:32px"><tr><td>
+<div style="font-size:22px;font-weight:800;letter-spacing:1px;color:#173d32;direction:ltr;text-align:right">FIXGAD</div>
+<p style="color:#718078;font-size:12px">مرحبا بيك معانا</p>
+<h1 style="font-size:25px;color:#173d32">أكد لينا الإيميل ديالك</h1>
+<p>سلام{{ if .Data.full_name }} {{ .Data.full_name }}{{ end }}،</p>
+<p>شكراً حيث تسجلتي فـ FIXGAD! باش نكملو تأكيد الحساب ديالك ونتأكدو أن هاد الإيميل ديالك، كليكي على الزر اللي لتحت.</p>
+<p style="margin:28px 0"><a href="{{ .ConfirmationURL }}" style="background:#173d32;color:#fff;text-decoration:none;padding:14px 22px;border-radius:8px;font-weight:bold;display:inline-block">أكد الإيميل ديالي</a></p>
+<p style="font-size:13px;color:#64736b">إلا ما كنتيش نتا اللي درتي هاد التسجيل، تقدر تتجاهل هاد الرسالة.</p>
+<p style="margin-top:28px">تحياتنا،<br><strong>فريق FIXGAD</strong></p>
+<hr style="border:0;border-top:1px solid #e8eee9;margin-top:24px"><p style="font-size:12px;color:#718078">عندك شي سؤال؟ تواصل معانا: <a href="mailto:support@fixgad.tech" style="color:#173d32">support@fixgad.tech</a></p>
+</td></tr></table></body></html>
 ```
 
-## 2. Reset password
+## 2. تبديل كلمة السر (Reset password)
 
-**Subject:** FIXGAD — your password reset link
+**Subject:** طلبتي تبدل كلمة السر ديال FIXGAD
 
 ```html
-<!doctype html><html><body style="margin:0;background:#f4f6f3;font-family:Arial,sans-serif;color:#17211d;padding:28px 12px"><table role="presentation" width="100%" style="max-width:580px;margin:auto;background:#fff;border-radius:16px;padding:32px"><tr><td>
-<div style="font-size:22px;font-weight:800;letter-spacing:1px;color:#173d32">FIXGAD</div><p style="color:#718078;font-size:11px;letter-spacing:1px">ACCOUNT SECURITY</p>
-<h1 style="font-size:25px;color:#173d32">Let's get you back in.</h1>
-<p>We received a request to reset the password for your FIXGAD account.</p>
-<p>Choose a new password using the secure button below. This link is personal to you and should not be shared.</p>
-<p style="margin:28px 0"><a href="{{ .ConfirmationURL }}" style="background:#173d32;color:#fff;text-decoration:none;padding:14px 22px;border-radius:8px;font-weight:bold">Reset my password</a></p>
-<p style="font-size:13px;color:#64736b">If you didn't request a password reset, you can safely ignore this email. Your password will remain unchanged.</p>
-<p style="margin-top:28px">The FIXGAD Team</p><hr style="border:0;border-top:1px solid #e8eee9;margin-top:24px"><p style="font-size:12px;color:#718078">Need help? <a href="mailto:support@fixgad.tech" style="color:#173d32">support@fixgad.tech</a></p></td></tr></table></body></html>
+<!doctype html><html lang="ary" dir="rtl"><body style="margin:0;background:#f4f6f3;font-family:Arial,sans-serif;color:#17211d;padding:28px 12px;direction:rtl"><table role="presentation" width="100%" style="max-width:580px;margin:auto;background:#fff;border-radius:16px;padding:32px"><tr><td>
+<div style="font-size:22px;font-weight:800;color:#173d32">FIXGAD</div><p style="color:#718078;font-size:12px">أمان الحساب</p>
+<h1 style="font-size:25px;color:#173d32">نعاونوك ترجع لحسابك</h1>
+<p>توصلنا بطلب باش تبدل كلمة السر ديال حساب FIXGAD ديالك.</p>
+<p>كليكي على الزر باش تختار كلمة سر جديدة. هاد الرابط خاص بيك، ما تشاركو مع حتى واحد.</p>
+<p style="margin:28px 0"><a href="{{ .ConfirmationURL }}" style="background:#173d32;color:#fff;text-decoration:none;padding:14px 22px;border-radius:8px;font-weight:bold;display:inline-block">بدل كلمة السر</a></p>
+<p style="font-size:13px;color:#64736b">إلا ما طلبتيش تبدل كلمة السر، تجاهل هاد الإيميل. كلمة السر الحالية ديالك غاتبقى كيف ما هي.</p>
+<p>تحياتنا،<br><strong>فريق FIXGAD</strong></p><hr style="border:0;border-top:1px solid #e8eee9;margin-top:24px"><p style="font-size:12px;color:#718078">محتاج المساعدة؟ <a href="mailto:support@fixgad.tech" style="color:#173d32">support@fixgad.tech</a></p></td></tr></table></body></html>
 ```
 
-## 3. Magic link
+## 3. رابط الدخول (Magic link)
 
-**Subject:** Your secure FIXGAD sign-in link
+**Subject:** رابط الدخول الآمن ديالك لـ FIXGAD
 
 ```html
-<!doctype html><html><body style="margin:0;background:#f4f6f3;font-family:Arial,sans-serif;color:#17211d;padding:28px 12px"><table role="presentation" width="100%" style="max-width:580px;margin:auto;background:#fff;border-radius:16px;padding:32px"><tr><td>
-<div style="font-size:22px;font-weight:800;color:#173d32">FIXGAD</div><h1 style="font-size:25px;color:#173d32">Sign in securely</h1>
-<p>Use the button below to sign in to your FIXGAD account. This link is single-use, so keep it private.</p>
-<p style="margin:28px 0"><a href="{{ .ConfirmationURL }}" style="background:#173d32;color:#fff;text-decoration:none;padding:14px 22px;border-radius:8px;font-weight:bold">Sign in to FIXGAD</a></p>
-<p style="font-size:13px;color:#64736b">If you didn't request this link, you can ignore this email.</p><p>The FIXGAD Team</p><p style="font-size:12px;color:#718078">Support: support@fixgad.tech</p></td></tr></table></body></html>
+<!doctype html><html lang="ary" dir="rtl"><body style="margin:0;background:#f4f6f3;font-family:Arial,sans-serif;color:#17211d;padding:28px 12px;direction:rtl"><table role="presentation" width="100%" style="max-width:580px;margin:auto;background:#fff;border-radius:16px;padding:32px"><tr><td>
+<div style="font-size:22px;font-weight:800;color:#173d32">FIXGAD</div><h1 style="font-size:25px;color:#173d32">دخل لحسابك بأمان</h1>
+<p>هادا هو الرابط الخاص باش تدخل لحساب FIXGAD ديالك. الرابط كيستعمل غير مرة وحدة، وخاصك تخليه سري.</p>
+<p style="margin:28px 0"><a href="{{ .ConfirmationURL }}" style="background:#173d32;color:#fff;text-decoration:none;padding:14px 22px;border-radius:8px;font-weight:bold;display:inline-block">دخل لـ FIXGAD</a></p>
+<p style="font-size:13px;color:#64736b">إلا ما طلبتيش هاد الرابط، تقدر تتجاهل الإيميل.</p><p>تحياتنا،<br><strong>فريق FIXGAD</strong></p><p style="font-size:12px;color:#718078">الدعم: support@fixgad.tech</p></td></tr></table></body></html>
 ```
 
-## 4. Invite user
+## 4. دعوة للانضمام (Invite user)
 
-**Subject:** You're invited to FIXGAD
+**Subject:** عندك دعوة باش تنضم لـ FIXGAD
 
 ```html
-<!doctype html><html><body style="margin:0;background:#f4f6f3;font-family:Arial,sans-serif;color:#17211d;padding:28px 12px"><table role="presentation" width="100%" style="max-width:580px;margin:auto;background:#fff;border-radius:16px;padding:32px"><tr><td>
-<div style="font-size:22px;font-weight:800;color:#173d32">FIXGAD</div><h1 style="font-size:25px;color:#173d32">You've been invited.</h1>
-<p>Someone from the FIXGAD team has invited you to create or access your account.</p>
-<p>Use the secure invitation link below to continue.</p>
-<p style="margin:28px 0"><a href="{{ .ConfirmationURL }}" style="background:#173d32;color:#fff;text-decoration:none;padding:14px 22px;border-radius:8px;font-weight:bold">Accept invitation</a></p>
-<p style="font-size:13px;color:#64736b">If you weren't expecting this invitation, please contact support before proceeding.</p><p>The FIXGAD Team · support@fixgad.tech</p></td></tr></table></body></html>
+<!doctype html><html lang="ary" dir="rtl"><body style="margin:0;background:#f4f6f3;font-family:Arial,sans-serif;color:#17211d;padding:28px 12px;direction:rtl"><table role="presentation" width="100%" style="max-width:580px;margin:auto;background:#fff;border-radius:16px;padding:32px"><tr><td>
+<div style="font-size:22px;font-weight:800;color:#173d32">FIXGAD</div><h1 style="font-size:25px;color:#173d32">مرحبا، عندك دعوة!</h1>
+<p>شي واحد من فريق FIXGAD صيفط ليك دعوة باش تنشئ الحساب ديالك ولا تدخل ليه.</p><p>كليكي على الزر باش تكمل باستعمال الرابط الآمن.</p>
+<p style="margin:28px 0"><a href="{{ .ConfirmationURL }}" style="background:#173d32;color:#fff;text-decoration:none;padding:14px 22px;border-radius:8px;font-weight:bold;display:inline-block">قبل الدعوة</a></p>
+<p style="font-size:13px;color:#64736b">إلا ما كنتيش كتسنى هاد الدعوة، تواصل مع الدعم قبل ما تكمل.</p><p>فريق FIXGAD · support@fixgad.tech</p></td></tr></table></body></html>
 ```
 
-## 5. Change email address
+## 5. تأكيد تغيير الإيميل (Change email address)
 
-**Subject:** FIXGAD — confirm your new email address
+**Subject:** أكد الإيميل الجديد ديالك فـ FIXGAD
 
 ```html
-<!doctype html><html><body style="margin:0;background:#f4f6f3;font-family:Arial,sans-serif;color:#17211d;padding:28px 12px"><table role="presentation" width="100%" style="max-width:580px;margin:auto;background:#fff;border-radius:16px;padding:32px"><tr><td>
-<div style="font-size:22px;font-weight:800;color:#173d32">FIXGAD</div><h1 style="font-size:25px;color:#173d32">Confirm your new email</h1>
-<p>You asked to update the email address on your FIXGAD account to <strong>{{ .NewEmail }}</strong>.</p>
-<p>Confirm this change using the secure button below.</p>
-<p style="margin:28px 0"><a href="{{ .ConfirmationURL }}" style="background:#173d32;color:#fff;text-decoration:none;padding:14px 22px;border-radius:8px;font-weight:bold">Confirm email change</a></p>
-<p style="font-size:13px;color:#64736b">If you didn't request this change, do not click the button. Contact support at support@fixgad.tech.</p><p>The FIXGAD Team</p></td></tr></table></body></html>
+<!doctype html><html lang="ary" dir="rtl"><body style="margin:0;background:#f4f6f3;font-family:Arial,sans-serif;color:#17211d;padding:28px 12px;direction:rtl"><table role="presentation" width="100%" style="max-width:580px;margin:auto;background:#fff;border-radius:16px;padding:32px"><tr><td>
+<div style="font-size:22px;font-weight:800;color:#173d32">FIXGAD</div><h1 style="font-size:25px;color:#173d32">أكد تغيير الإيميل</h1>
+<p>طلبتي تبدل الإيميل المرتابط بحساب FIXGAD ديالك لهاد العنوان: <strong>{{ .NewEmail }}</strong>.</p><p>كليكي على الزر باش تأكد هاد التغيير.</p>
+<p style="margin:28px 0"><a href="{{ .ConfirmationURL }}" style="background:#173d32;color:#fff;text-decoration:none;padding:14px 22px;border-radius:8px;font-weight:bold;display:inline-block">أكد الإيميل الجديد</a></p>
+<p style="font-size:13px;color:#64736b">إلا ما طلبتيش هاد التغيير، ما تكليكيش على الزر وتواصل معانا بسرعة عبر support@fixgad.tech.</p><p>فريق FIXGAD</p></td></tr></table></body></html>
 ```
 
-## 6. Reauthentication code
+## 6. كود التأكد من الهوية (Reauthentication)
 
-**Subject:** Your FIXGAD security code: {{ .Token }}
-
-```html
-<!doctype html><html><body style="margin:0;background:#f4f6f3;font-family:Arial,sans-serif;color:#17211d;padding:28px 12px"><table role="presentation" width="100%" style="max-width:580px;margin:auto;background:#fff;border-radius:16px;padding:32px"><tr><td>
-<div style="font-size:22px;font-weight:800;color:#173d32">FIXGAD</div><h1 style="font-size:25px;color:#173d32">Confirm it's you</h1>
-<p>Use this security code to continue with your requested account action.</p>
-<div style="margin:24px 0;padding:18px;background:#f4f6f3;border-radius:10px;text-align:center;font-size:30px;font-weight:800;letter-spacing:8px;color:#173d32">{{ .Token }}</div>
-<p style="font-size:13px;color:#64736b">Never share this code with anyone, including someone claiming to be from FIXGAD. If you didn't request it, contact support.</p><p>The FIXGAD Team · support@fixgad.tech</p></td></tr></table></body></html>
-```
-
-## Security notification templates
-
-Enable the matching security notification in Supabase. These templates do not contain action links; they tell the account owner what changed and how to get help.
-
-### 7. Password changed
-**Subject:** Security update: your FIXGAD password was changed
+**Subject:** كود الأمان ديالك فـ FIXGAD: {{ .Token }}
 
 ```html
-<div style="font-family:Arial,sans-serif;color:#17211d"><h2 style="color:#173d32">Your password was changed</h2><p>The password for your FIXGAD account was recently updated.</p><p>If you made this change, no further action is needed. If you don't recognize it, reset your password immediately and contact <a href="mailto:support@fixgad.tech">support@fixgad.tech</a>.</p><p>The FIXGAD Security Team</p></div>
-```
-
-### 8. Email address changed
-**Subject:** Security update: your FIXGAD email address changed
-
-```html
-<div style="font-family:Arial,sans-serif;color:#17211d"><h2 style="color:#173d32">Your account email was changed</h2><p>The email address on your FIXGAD account changed from <strong>{{ .OldEmail }}</strong> to <strong>{{ .Email }}</strong>.</p><p>If you made this change, no further action is needed. If you don't recognize it, contact <a href="mailto:support@fixgad.tech">support@fixgad.tech</a> immediately.</p><p>The FIXGAD Security Team</p></div>
-```
-
-### 9. Phone number changed
-**Subject:** Security update: your FIXGAD phone number changed
-
-```html
-<div style="font-family:Arial,sans-serif;color:#17211d"><h2 style="color:#173d32">Your phone number was changed</h2><p>The phone number on your FIXGAD account changed from <strong>{{ .OldPhone }}</strong> to <strong>{{ .Phone }}</strong>.</p><p>If you don't recognize this change, contact <a href="mailto:support@fixgad.tech">support@fixgad.tech</a> immediately.</p><p>The FIXGAD Security Team</p></div>
-```
-
-### 10. Sign-in method linked
-**Subject:** Security update: a sign-in method was added to FIXGAD
-
-```html
-<div style="font-family:Arial,sans-serif;color:#17211d"><h2 style="color:#173d32">A sign-in method was linked</h2><p>The <strong>{{ .Provider }}</strong> sign-in method was linked to your FIXGAD account ({{ .Email }}).</p><p>If you didn't do this, contact <a href="mailto:support@fixgad.tech">support@fixgad.tech</a> immediately.</p><p>The FIXGAD Security Team</p></div>
-```
-
-### 11. Sign-in method removed
-**Subject:** Security update: a sign-in method was removed from FIXGAD
-
-```html
-<div style="font-family:Arial,sans-serif;color:#17211d"><h2 style="color:#173d32">A sign-in method was removed</h2><p>The <strong>{{ .Provider }}</strong> sign-in method was removed from your FIXGAD account ({{ .Email }}).</p><p>If you didn't do this, contact <a href="mailto:support@fixgad.tech">support@fixgad.tech</a> immediately.</p><p>The FIXGAD Security Team</p></div>
-```
-
-### 12. Verification method added
-**Subject:** Security update: a verification method was added
-
-```html
-<div style="font-family:Arial,sans-serif;color:#17211d"><h2 style="color:#173d32">A verification method was added</h2><p>The <strong>{{ .FactorType }}</strong> verification method was added to your FIXGAD account.</p><p>If you didn't make this change, contact <a href="mailto:support@fixgad.tech">support@fixgad.tech</a> immediately.</p><p>The FIXGAD Security Team</p></div>
-```
-
-### 13. Verification method removed
-**Subject:** Security update: a verification method was removed
-
-```html
-<div style="font-family:Arial,sans-serif;color:#17211d"><h2 style="color:#173d32">A verification method was removed</h2><p>The <strong>{{ .FactorType }}</strong> verification method was removed from your FIXGAD account.</p><p>If you didn't make this change, contact <a href="mailto:support@fixgad.tech">support@fixgad.tech</a> immediately.</p><p>The FIXGAD Security Team</p></div>
+<!doctype html><html lang="ary" dir="rtl"><body style="margin:0;background:#f4f6f3;font-family:Arial,sans-serif;color:#17211d;padding:28px 12px;direction:rtl"><table role="presentation" width="100%" style="max-width:580px;margin:auto;background:#fff;border-radius:16px;padding:32px"><tr><td>
+<div style="font-size:22px;font-weight:800;color:#173d32">FIXGAD</div><h1 style="font-size:25px;color:#173d32">أكد لينا بلي نتا صاحب الحساب</h1>
+<p>استعمل هاد الكود باش تكمل العملية اللي طلبتي فالحساب ديالك.</p>
+<div style="margin:24px 0;padding:18px;background:#f4f6f3;border-radius:10px;text-align:center;font-size:30px;font-weight:800;letter-spacing:8px;color:#173d32;direction:ltr">{{ .Token }}</div>
+<p style="font-size:13px;color:#64736b">ما تعطي هاد الكود لحتى واحد، حتى إلا قال ليك راه من فريق FIXGAD. إلا ما طلبتيهش، تواصل مع الدعم.</p><p>فريق FIXGAD · support@fixgad.tech</p></td></tr></table></body></html>
 ```
 
 ---
 
-## Final dashboard checklist
+## إيميلات التنبيهات الأمنية
 
-1. Open **Authentication → Email Templates**.
-2. Set each subject and HTML body above in its matching template.
-3. For security notifications, enable the relevant notification switches.
-4. Keep the sender name as **FIXGAD** and use a verified sender address.
-5. Set the Site URL to `https://fixgad.app` and allow `https://fixgad.app/reset-password`.
-6. Test confirmation, recovery, email change, and at least one security notification before launch.
+فعّل التنبيه المناسب من إعدادات Supabase. هاد الإيميلات كيعلموك بالتغييرات اللي وقعات فالحساب ديالك.
 
-**Important:** The early-access registration confirmation is a separate transactional email from this Supabase Auth template collection. It is sent by the FIXGAD registration API after the database confirms a new registration.
+### 7. تبدلات كلمة السر
+
+**Subject:** تنبيه أمني: تبدلات كلمة السر ديال FIXGAD
+
+```html
+<div dir="rtl" lang="ary" style="font-family:Arial,sans-serif;color:#17211d"><h2 style="color:#173d32">كلمة السر ديالك تبدلات</h2><p>كلمة السر ديال حساب FIXGAD ديالك تبدلات مؤخراً.</p><p>إلا كنت نتا اللي درتي هاد التغيير، ما خاصك دير والو. إلا ما عرفتيش هاد العملية، بدل كلمة السر ديالك دابا وتواصل معانا عبر <a href="mailto:support@fixgad.tech">support@fixgad.tech</a>.</p><p>فريق الأمان ديال FIXGAD</p></div>
+```
+
+### 8. تبدل الإيميل
+
+**Subject:** تنبيه أمني: تبدل الإيميل ديال حساب FIXGAD
+
+```html
+<div dir="rtl" lang="ary" style="font-family:Arial,sans-serif;color:#17211d"><h2 style="color:#173d32">الإيميل ديال الحساب تبدل</h2><p>الإيميل المرتابط بحساب FIXGAD تبدل من <strong>{{ .OldEmail }}</strong> لـ <strong>{{ .Email }}</strong>.</p><p>إلا كنت نتا اللي درتي هاد التغيير، ما خاصك دير والو. إلا ما عرفتيهش، تواصل معانا فوراً عبر <a href="mailto:support@fixgad.tech">support@fixgad.tech</a>.</p><p>فريق الأمان ديال FIXGAD</p></div>
+```
+
+### 9. تبدل رقم الهاتف
+
+**Subject:** تنبيه أمني: تبدل رقم الهاتف ديالك فـ FIXGAD
+
+```html
+<div dir="rtl" lang="ary" style="font-family:Arial,sans-serif;color:#17211d"><h2 style="color:#173d32">رقم الهاتف ديالك تبدل</h2><p>رقم الهاتف المرتابط بحساب FIXGAD تبدل من <strong>{{ .OldPhone }}</strong> لـ <strong>{{ .Phone }}</strong>.</p><p>إلا ما كنتيش نتا اللي درتي هاد التغيير، تواصل معانا فوراً عبر <a href="mailto:support@fixgad.tech">support@fixgad.tech</a>.</p><p>فريق الأمان ديال FIXGAD</p></div>
+```
+
+### 10. تزادت طريقة جديدة للدخول
+
+**Subject:** تنبيه أمني: تزادت طريقة جديدة للدخول لحساب FIXGAD
+
+```html
+<div dir="rtl" lang="ary" style="font-family:Arial,sans-serif;color:#17211d"><h2 style="color:#173d32">تزادت طريقة جديدة للدخول</h2><p>طريقة الدخول <strong>{{ .Provider }}</strong> تزادت لحساب FIXGAD ديالك المرتابط بهاد الإيميل: {{ .Email }}.</p><p>إلا ما درتيش هاد العملية، تواصل معانا فوراً عبر <a href="mailto:support@fixgad.tech">support@fixgad.tech</a>.</p><p>فريق الأمان ديال FIXGAD</p></div>
+```
+
+### 11. تحيدات طريقة الدخول
+
+**Subject:** تنبيه أمني: تحيدات طريقة دخول من حساب FIXGAD
+
+```html
+<div dir="rtl" lang="ary" style="font-family:Arial,sans-serif;color:#17211d"><h2 style="color:#173d32">تحيدات طريقة للدخول</h2><p>طريقة الدخول <strong>{{ .Provider }}</strong> تحيدات من حساب FIXGAD ديالك المرتابط بهاد الإيميل: {{ .Email }}.</p><p>إلا ما درتيش هاد العملية، تواصل معانا فوراً عبر <a href="mailto:support@fixgad.tech">support@fixgad.tech</a>.</p><p>فريق الأمان ديال FIXGAD</p></div>
+```
+
+### 12. تزادت وسيلة للتحقق
+
+**Subject:** تنبيه أمني: تزادت وسيلة جديدة للتحقق فـ FIXGAD
+
+```html
+<div dir="rtl" lang="ary" style="font-family:Arial,sans-serif;color:#17211d"><h2 style="color:#173d32">تزادت وسيلة للتحقق من الهوية</h2><p>وسيلة التحقق <strong>{{ .FactorType }}</strong> تزادت لحساب FIXGAD ديالك.</p><p>إلا ما كنتيش نتا اللي درتي هاد التغيير، تواصل معانا فوراً عبر <a href="mailto:support@fixgad.tech">support@fixgad.tech</a>.</p><p>فريق الأمان ديال FIXGAD</p></div>
+```
+
+### 13. تحيدات وسيلة التحقق
+
+**Subject:** تنبيه أمني: تحيدات وسيلة التحقق من FIXGAD
+
+```html
+<div dir="rtl" lang="ary" style="font-family:Arial,sans-serif;color:#17211d"><h2 style="color:#173d32">تحيدات وسيلة التحقق</h2><p>وسيلة التحقق <strong>{{ .FactorType }}</strong> تحيدات من حساب FIXGAD ديالك.</p><p>إلا ما كنتيش نتا اللي درتي هاد التغيير، تواصل معانا فوراً عبر <a href="mailto:support@fixgad.tech">support@fixgad.tech</a>.</p><p>فريق الأمان ديال FIXGAD</p></div>
+```
+
+---
+
+## شنو خاصك تدير فـ Supabase
+
+1. دخل لـ **Authentication → Email Templates**.
+2. بدل Subject وHTML ديال كل قالب بالقالب المقابل ليه هنا.
+3. فـ Security Notifications، فعّل التنبيهات اللي بغيتي تبعث للمستخدمين.
+4. خليهوم كاملين بنفس اسم المرسل **FIXGAD** واستعمل عنوان إرسال موثّق.
+5. تأكد Site URL هو `https://fixgad.app` وزيد `https://fixgad.app/reset-password` فالـ Redirect URLs.
+6. جرّب تأكيد الحساب، استرجاع كلمة السر، تغيير الإيميل، وتنبيه أمني قبل الإطلاق.
+
+**مهم:** إيميل التسجيل فالولوج المبكر منفصل على قوالب Supabase Auth. كيتصيفط من API ديال FIXGAD من بعد ما يتسجل الطلب بنجاح فقاعدة البيانات.
